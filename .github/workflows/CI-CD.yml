@@ -19,6 +19,4 @@ jobs:
           python -m pip install --upgrade pip
       - name: Test with unittest
         run: |
-         pip install pytest
-         pip install pytest-cov
-         pytest unitTestingtest.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+          python -m unittest unitTestingtest.py 
