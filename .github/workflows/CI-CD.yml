@@ -20,6 +20,7 @@ jobs:
           pip install numpy
           pip install flask
           pip install flask_sqlalchemy
+          pip install flask_login
 
       - name: Test with unittest
         run: |
