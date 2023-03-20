@@ -1,4 +1,6 @@
-from flask import Flask, flash, render_template, url_for, redirect
+import sqlite3
+from urllib import request
+from flask import Flask, flash, render_template, session, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -40,6 +42,7 @@ def login():
         row1 = c1.fetchone()
         email, password = row1
 
+        username =""
         session['username'] = username
 
         return redirect('/home')
