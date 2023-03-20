@@ -22,7 +22,7 @@ jobs:
           pip install flask_sqlalchemy
           pip install flask_login
           pip install flask_wtf
-          
+          pip install flask_bcrypt
       - name: Test with unittest
         run: |
           python -m unittest unitTestingtest.py 
