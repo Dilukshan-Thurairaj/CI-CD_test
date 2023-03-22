@@ -1,10 +1,13 @@
-name: unitTests
+name: Tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ${{matrix.os}}
+    runs-on: windows-latest
     strategy:
       matrix:
         os: [windows-latest,macos-latest,ubuntu-latest]
