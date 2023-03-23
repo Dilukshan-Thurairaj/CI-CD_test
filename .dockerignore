@@ -11,3 +11,5 @@ settings.json
 database_name.db
 unitTestingtest.py
 quiz copy.html
+settings.json
+launch.json
