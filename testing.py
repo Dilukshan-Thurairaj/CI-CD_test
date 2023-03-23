@@ -95,7 +95,7 @@ def register():
 
 @app.route('/home')
 def home():   
-    return render_template('homepage.html')
+    return render_template('templates/homepage.html')
 
 @app.route('/quiz')
 def quiz():   
