@@ -13,7 +13,7 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 
 
-# database
+# database joined
 mydb = mysql.connector.connect(
     host = 'beacqc23dg92ejtemki3-mysql.services.clever-cloud.com',
     user = 'uxfojmeheyknoobl',
