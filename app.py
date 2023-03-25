@@ -1,4 +1,7 @@
 import sqlite3
+import mysql.connector
+from flask_mysqldb import MySQL
+
 from urllib import request
 from flask import Flask, flash, render_template, session, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
@@ -10,8 +13,15 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/oneth/University/SDGP/Login/database.db'
-db = SQLAlchemy(app)
+# database
+mydb = mysql.connector.connect(
+    host = 'beacqc23dg92ejtemki3-mysql.services.clever-cloud.com',
+    user = 'uxfojmeheyknoobl',
+    password = 'tkAptwS2Ze33PuvUCakt',
+    database = 'beacqc23dg92ejtemki3'
+)
+
+db = MySQL(app)
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
@@ -30,15 +40,14 @@ def login():
     email = request.form['username']
     password = request.form['password']
 
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
+    c = mydb.cursor()
 
-    c.execute('SELECT * FROM user WHERE email=? AND password=?',(email, password))
+    c.execute('SELECT * FROM user WHERE email=%s AND password=%s',(email, password))
     row = c.fetchone()
     
     if row:
-        c1 = conn.cursor()
-        c1.execute('SELECT username, password FROM user WHERE username=? AND password=?',(email, password))
+        c1 = mydb.cursor()
+        c1.execute('SELECT username, password FROM user WHERE username=%s AND password=%s',(email, password))
         row1 = c1.fetchone()
         email, password = row1
 

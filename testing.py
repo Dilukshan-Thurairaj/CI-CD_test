@@ -2,7 +2,10 @@ import pickle
 import json
 import sys
 import numpy as np
+import mysql.connector
 
+
+from flask_mysqldb import MySQL
 from flask import Flask, flash, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -19,8 +22,15 @@ from flask import Flask,session, request, render_template, jsonify
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-db = SQLAlchemy(app)
+# database
+mydb = mysql.connector.connect(
+    host = 'beacqc23dg92ejtemki3-mysql.services.clever-cloud.com',
+    user = 'uxfojmeheyknoobl',
+    password = 'tkAptwS2Ze33PuvUCakt',
+    database = 'beacqc23dg92ejtemki3'
+)
+
+db = MySQL(app)
 bcrypt = Bcrypt(app)
 
 
@@ -36,15 +46,15 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
+    
+    c = mydb.cursor()
 
-    c.execute('SELECT * FROM user WHERE username=? AND password=?',(username, password))
+    c.execute('SELECT * FROM user WHERE username=%s AND password=%s',(username, password))
     row = c.fetchone()
     
     if row:
-        c1 = conn.cursor()
-        c1.execute('SELECT username, password FROM user WHERE username=? AND password=?',(username, password))
+        c1 = mydb.cursor()
+        c1.execute('SELECT username, password FROM user WHERE username=%s AND password=%s',(username, password))
         row1 = c1.fetchone()
         username, password = row1
 
@@ -69,8 +79,7 @@ def register():
     username = request.form['username']
     password = request.form['password']
 
-    conn = sqlite3.connect('database.db')
-    c1 = conn.cursor()
+    c1 = mydb.cursor()
 
     c1.execute('SELECT username FROM user')
     rows1 = c1.fetchall()
@@ -86,8 +95,8 @@ def register():
             return redirect('/register')
 
     if usernameHas:
-        c1.execute("INSERT INTO user (username, password) VALUES (?, ?)", (username, password))
-        conn.commit()
+        c1.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))
+        mydb.commit()
         return render_template('login.html')
 
     return render_template('register.html')
@@ -95,7 +104,7 @@ def register():
 
 @app.route('/home')
 def home():   
-    return render_template('templates/homepage.html')
+    return render_template('homepage.html')
 
 @app.route('/quiz')
 def quiz():   
