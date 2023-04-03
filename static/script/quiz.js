@@ -329,8 +329,8 @@ function passingArray() {
 
   $.ajax({
     //POST to GET
-    type: "GET",
     url: "/test",
+    type: "POST",
     contentType: "application/json",
     data: JSON.stringify(s),
     success: function (data) {
