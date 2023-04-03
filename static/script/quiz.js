@@ -328,8 +328,8 @@ function passingArray() {
   console.log(s); // Prints the variables to console window, which are in the JSON format
 
   $.ajax({
-    url: "/test",
     type: "POST",
+    url: "/test",
     contentType: "application/json",
     data: JSON.stringify(s),
     success: function (data) {
