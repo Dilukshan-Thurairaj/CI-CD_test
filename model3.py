@@ -38,11 +38,12 @@ svm_pred = svm_model.predict(X_test)
 from sklearn.ensemble import StackingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 
 estimators_list = [('model1',decisionModel),('model2',randForestModel),('model3',svm_model)]
 
-pipe = make_pipeline(StackingClassifier(estimators = estimators_list, final_estimator = LogisticRegression(max_iter=2000)))
+pipe = make_pipeline(StandardScaler(), StackingClassifier(estimators = estimators_list, final_estimator = LogisticRegression(max_iter=2000)))
                      
 pipe.fit(X_train.values, y_train)
 
