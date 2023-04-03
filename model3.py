@@ -1,6 +1,5 @@
 import pandas as pd
 
-from sklearn.metrics import accuracy_score
 
 df = pd.read_csv("Final5.csv")
 # df.drop('HowYouPrepare',axis = 1, inplace = True)
