@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import mysql.connector
 from flask_mysqldb import MySQL
@@ -10,19 +11,25 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+
+from sqlalchemy import create_engine
+
+
 app = Flask(__name__)
 
 
 # database joined
-mydb = mysql.connector.connect(
-    host = 'beacqc23dg92ejtemki3-mysql.services.clever-cloud.com',
-    user = 'uxfojmeheyknoobl',
-    password = 'tkAptwS2Ze33PuvUCakt',
-    database = 'beacqc23dg92ejtemki3'
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://studentprogresspro_user:Ubp7bK1QvDidST7YjWcsQ4SW6Pgk9Jol@dpg-cgl5ov64dad69r60cqs0-a.singapore-postgres.render.com/studentprogresspro"
 
-db = MySQL(app)
+# postgres://studentprogresspro_user:Ubp7bK1QvDidST7YjWcsQ4SW6Pgk9Jol@dpg-cgl5ov64dad69r60cqs0-a.singapore-postgres.render.com/studentprogresspro
+
+db = SQLAlchemy(app)
+
 bcrypt = Bcrypt(app)
+
+engine = create_engine('postgresql://studentprogresspro_user:Ubp7bK1QvDidST7YjWcsQ4SW6Pgk9Jol@dpg-cgl5ov64dad69r60cqs0-a.singapore-postgres.render.com/studentprogresspro')
+
+connection = engine.raw_connection()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -40,14 +47,14 @@ def login():
     email = request.form['username']
     password = request.form['password']
 
-    c = mydb.cursor()
+    c = connection.cursor()
 
-    c.execute('SELECT * FROM user WHERE email=%s AND password=%s',(email, password))
+    c.execute('SELECT * FROM public."user" WHERE email=%s AND password=%s',(email, password))
     row = c.fetchone()
     
     if row:
-        c1 = mydb.cursor()
-        c1.execute('SELECT username, password FROM user WHERE username=%s AND password=%s',(email, password))
+        c1 = connection.cursor()
+        c1.execute('SELECT username, password FROM public."user" WHERE username=%s AND password=%s',(email, password))
         row1 = c1.fetchone()
         email, password = row1
 

@@ -1,4 +1,5 @@
 import pickle
+import os
 import json
 import sys
 import numpy as np
@@ -13,28 +14,28 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+from sqlalchemy import create_engine
 
 import sqlite3
 from flask import request
 
 from flask import Flask,session, request, render_template, jsonify
 
+
 app = Flask(__name__)
 app.secret_key = 'secret_key'
 
-# database
-mydb = mysql.connector.connect(
-    host = 'beacqc23dg92ejtemki3-mysql.services.clever-cloud.com',
-    user = 'uxfojmeheyknoobl',
-    password = 'tkAptwS2Ze33PuvUCakt',
-    database = 'beacqc23dg92ejtemki3'
-)
 
-db = MySQL(app)
+# database
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://studentprogresspro_user:Ubp7bK1QvDidST7YjWcsQ4SW6Pgk9Jol@dpg-cgl5ov64dad69r60cqs0-a.singapore-postgres.render.com/studentprogresspro"
+
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
+#Connection
+engine = create_engine('postgresql://studentprogresspro_user:Ubp7bK1QvDidST7YjWcsQ4SW6Pgk9Jol@dpg-cgl5ov64dad69r60cqs0-a.singapore-postgres.render.com/studentprogresspro')
 
-
+connection = engine.raw_connection()
 
 @app.route('/')
 def loginpage():
@@ -47,14 +48,14 @@ def login():
     password = request.form['password']
 
     
-    c = mydb.cursor()
+    c = connection.cursor()
 
-    c.execute('SELECT * FROM user WHERE username=%s AND password=%s',(username, password))
+    c.execute('SELECT * FROM public."user" WHERE username=%s AND password=%s',(username, password))
     row = c.fetchone()
     
     if row:
-        c1 = mydb.cursor()
-        c1.execute('SELECT username, password FROM user WHERE username=%s AND password=%s',(username, password))
+        c1 = connection.cursor()
+        c1.execute('SELECT username, password FROM public."user" WHERE username=%s AND password=%s',(username, password))
         row1 = c1.fetchone()
         username, password = row1
 
@@ -79,9 +80,9 @@ def register():
     username = request.form['username']
     password = request.form['password']
 
-    c1 = mydb.cursor()
+    c1 = connection.cursor()
 
-    c1.execute('SELECT username FROM user')
+    c1.execute('SELECT username FROM public."user"')
     rows1 = c1.fetchall()
 
     usernameHas = True
@@ -95,8 +96,8 @@ def register():
             return redirect('/register')
 
     if usernameHas:
-        c1.execute("INSERT INTO user (username, password) VALUES (%s, %s)", (username, password))
-        mydb.commit()
+        c1.execute('INSERT INTO public."user" (username, password) VALUES (%s, %s)', (username, password))
+        connection.commit()
         return render_template('login.html')
 
     return render_template('register.html')
@@ -112,12 +113,10 @@ def quiz():
 
 @app.route('/testo1')
 def testo1():
-    
-    conn = sqlite3.connect('database.db')
 
-    c = conn.cursor()
+    c = connection.cursor()
 
-    c.execute('SELECT * FROM testomonial ORDER BY userID DESC LIMIT 6')
+    c.execute('SELECT * FROM public.testomonial ORDER BY "userID" DESC LIMIT 6')
     # columns = [description[0] for description in c.description]
     data = c.fetchall()
     
@@ -142,13 +141,13 @@ def testoData():
     feedback = request.form['feedback']
     rating = request.form['rating']
     
-    conn = sqlite3.connect('database.db')
     
     print(username)
     
-    c = conn.cursor()
-    c.execute("INSERT INTO testomonial (username, review, rating) VALUES (?, ?, ?)", (username, feedback, rating))
-    conn.commit()
+    c = connection.cursor()
+    c.execute('INSERT INTO public.testomonial (username, review, rating) VALUES (%s, %s, %s)', (username, feedback, rating))
+    #Committing to the connection
+    connection.commit()
 
     return redirect('/testo1')
     
