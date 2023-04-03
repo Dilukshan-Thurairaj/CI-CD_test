@@ -340,6 +340,7 @@ function passingArray() {
     },
   });
 
+  console.log(markDisplay.textContent)
   var Predview = document.getElementById("viewPred");
   Predview.remove();
   document.getElementById("tipsBtn").style.visibility = "visible";
