@@ -1,1 +1,9 @@
 .DS_Store
+launch.json
+quiz copy.html
+settings.json
+idea/
+pytest_cache/
+.vscode/
+instance/
+unitTesting.py
