@@ -2,8 +2,9 @@
 launch.json
 quiz copy.html
 settings.json
-idea/
-pytest_cache/
+.idea/
+.pytest_cache/
 .vscode/
 instance/
 unitTesting.py
+__pycache__ 
