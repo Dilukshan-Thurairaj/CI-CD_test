@@ -160,7 +160,7 @@ def aboutUs():
 
 #testcomment
 
-@app.route('/test', methods=['GET'])
+@app.route('/https://studentprogresspro-demo.onrender.com', methods=['POST'])
 def test():
     output = request.get_json()
     print(output) # This is the output that was stored in the JSON within the browser
