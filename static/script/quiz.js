@@ -329,7 +329,7 @@ function passingArray() {
 
   $.ajax({
     //POST to GET
-    url: "https://studentprogresspro-demo.onrender.com",
+    url: "/test",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(s),
