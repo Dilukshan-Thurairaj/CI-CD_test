@@ -160,7 +160,7 @@ def aboutUs():
 
 #testcomment
 
-@app.route('/test', methods=['POST'])
+@app.route('/test', methods=['GET'])
 def test():
     output = request.get_json()
     print(output) # This is the output that was stored in the JSON within the browser
@@ -176,9 +176,10 @@ def test():
 
     with open('model_pickle_final.h5','rb') as f:
      mod =  pickle.load(f)
+     mod.__getstate__()['_sklearn_version']
      
     # print(myarray)
-    temp = mod.predict(firstValue)
+    temp = mod.predict([firstValue])
     print(temp)
     #test comment added 
     arr_str = np.array2string(temp)
