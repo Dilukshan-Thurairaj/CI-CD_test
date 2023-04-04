@@ -79,18 +79,18 @@
                 {% for row in reversed_data %}
                 <tr>
 
-                <td style="padding:20px;">{{ row[0]}}</td>
+                <td style="padding:20px;">{{ row[1]}}</td>
                 
-                <td style="padding:20px;"> {{ row[1] }}</td>
+                <td style="padding:20px;"> {{ row[2] }}</td>
 
                 <td>
                     <div class="reviews">
-                        {% for star in range(row[2]|int) %}
+                        {% for star in range(row[3]|int) %}
 
                         <i class="fa-solid fa-star" class="star"></i>
                         {%endfor%}
 
-                        {% for star in range(5 - (row[2]|int)) %}
+                        {% for star in range(5 - (row[3]|int)) %}
 
                         <i class="fa-sharp fa-regular fa-star fa-horizontal-rule"></i>
                         {%endfor%}
