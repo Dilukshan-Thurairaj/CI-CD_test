@@ -176,7 +176,6 @@ def test():
 
     with open('model_pickle_final.h5','rb') as f:
      mod =  pickle.load(f)
-     mod.__getstate__()['_sklearn_version']
      
     # print(myarray)
     temp = mod.predict([firstValue])
