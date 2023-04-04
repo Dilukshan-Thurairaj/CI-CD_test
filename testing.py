@@ -178,7 +178,7 @@ def test():
      mod =  pickle.load(f)
      
     # print(myarray)
-    temp = mod.predict([firstValue])
+    temp = mod.predict(firstValue)
     print(temp)
     #test comment added 
     arr_str = np.array2string(temp)
