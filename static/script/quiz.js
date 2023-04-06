@@ -221,13 +221,13 @@ function passingArray() {
     if (i == 0) {
       console.log("hello");
       if (testing2[i] == "a") {
-        testing3[i] = 0;
-      } else if (testing2[i] == "b") {
         testing3[i] = 1;
-      } else if (testing2[i] == "c") {
+      } else if (testing2[i] == "b") {
         testing3[i] = 2;
-      } else if (testing2[i] == "d") {
+      } else if (testing2[i] == "c") {
         testing3[i] = 3;
+      } else if (testing2[i] == "d") {
+        testing3[i] = 4;
       }
     } else if (i == 1) {
       if (testing2[i] == "a") {
@@ -288,8 +288,10 @@ function passingArray() {
     } else if (i == 8) {
       if (testing2[i] == "a") {
         testing3[i] = 1;
-      } else if (testing2[i] == "b") {
-        testing3[i] = 2;
+      } 
+      //Changed 2 to 0
+      else if (testing2[i] == "b") {
+        testing3[i] = 0;
       }
     } else if (i == 9) {
       if (testing2[i] == "a") {
@@ -301,11 +303,13 @@ function passingArray() {
       } else if (testing2[i] == "d") {
         testing3[i] = 4;
       }
-    } else if (i == 10) {
+    } 
+    //Changed 2 to 0
+    else if (i == 10) {
       if (testing2[i] == "a") {
         testing3[i] = 1;
       } else if (testing2[i] == "b") {
-        testing3[i] = 2;
+        testing3[i] = 0;
       }
     } else if (i == 11) {
       if (testing2[i] == "a") {
@@ -328,7 +332,6 @@ function passingArray() {
   console.log(s); // Prints the variables to console window, which are in the JSON format
 
   $.ajax({
-    //POST to GET
     url: "/test",
     type: "POST",
     contentType: "application/json",
@@ -340,7 +343,6 @@ function passingArray() {
     },
   });
 
-  console.log(markDisplay.textContent)
   var Predview = document.getElementById("viewPred");
   Predview.remove();
   document.getElementById("tipsBtn").style.visibility = "visible";
